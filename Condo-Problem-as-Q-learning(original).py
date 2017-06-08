@@ -84,41 +84,47 @@ def constraints(state, revenue):
 # Single Timestep for Customer Arrival/Purchase
 def transition(state, price):
     theta = np.random.uniform(0,1,1)
-    prob_arrive = np.random.uniform(0,1,1)
-    
-    prob_purchase = []
-    if prob_arrive <= prob_lambda:
-        for i in range(types):
-            if state[i] != 0:
-                prob_purchase.append(theta * quality[i] - price[i])
-            
-            else:
-                prob_purchase.append(-10000)
-    else:
-        return
-        
-    prob_purchase.append(0)
-            
-    counter = prob_purchase.count(max(prob_purchase))
-    
-    if counter > 1:
-        best_purchase_mult = []
-        for i in range(type + 1):
-            if prob_purchase[i] == max(prob_purchase):
-                best_purchase_mult.append(i)
-        best_purchase = np.random.choice(best_purchase_mult,1)
-        
-    elif counter == 1:
-        best_purchase = prob_purchase.index(max(prob_purchase))
-    
-    if best_purchase == types:
-        return
-        
-    else:
-        state[best_purchase] += -1
-    
-    return
+    prob_arrive = (np.random.normal(25/time,12.5/time))
+    if prob_arrive <= 0:
+        prob_arrive = 0
 
+
+    prob_arrive = round(prob_arrive)
+
+    prob_purchase = []
+
+    for i in range(prob_arrive):
+        if prob_arrive > 0:
+            for i in range(types):
+                if state[i] != 0:
+                    prob_purchase.append(theta * quality[i] - price[i])
+
+                else:
+                    prob_purchase.append(-10000)
+        else:
+            return
+
+        prob_purchase.append(0)
+
+        counter = prob_purchase.count(max(prob_purchase))
+
+        if counter > 1:
+            best_purchase_mult = []
+            for i in range(type + 1):
+                if prob_purchase[i] == max(prob_purchase):
+                    best_purchase_mult.append(i)
+            best_purchase = np.random.choice(best_purchase_mult,1)
+
+        elif counter == 1:
+            best_purchase = prob_purchase.index(max(prob_purchase))
+
+        if best_purchase == types:
+            return
+
+        else:
+            state[best_purchase] += -1
+
+        return
 # This function chooses at random which action to be performed within the range 
 # of all the available actions.
 
