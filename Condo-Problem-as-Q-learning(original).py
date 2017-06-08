@@ -83,7 +83,7 @@ def constraints(state, revenue):
 
 # Single Timestep for Customer Arrival/Purchase
 def transition(state, price):
-    theta = np.random.uniform(0,1,1)
+   
     prob_arrive = (np.random.normal(25/time,12.5/time))
     if prob_arrive <= 0:
         prob_arrive = 0
@@ -94,10 +94,10 @@ def transition(state, price):
     prob_purchase = []
 
     for i in range(prob_arrive):
-        if prob_arrive > 0:
-            for i in range(types):
-                if state[i] != 0:
-                    prob_purchase.append(theta * quality[i] - price[i])
+        theta = np.random.lognormal(-1,0.5,1)
+        for i in range(types):
+            if state[i] != 0:
+                prob_purchase.append(theta * quality[i] - price[i])
 
                 else:
                     prob_purchase.append(-10000)
